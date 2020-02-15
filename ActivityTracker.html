@@ -45,7 +45,7 @@
 		    <div class="col-md-6">
 				<script src="ActivityTrackerShowcase.js"></script>
 
-				<label id="attendanceLabel">Estimated Attendance: </label>
+				<label id="attendanceLabel">Current Estimated Attendance: </label>
 				<label id="attendanceResult"></label>
 				<table class="table table-bordered table-dark" id="testTable">
 					<tbody>
@@ -95,7 +95,7 @@
 						else
 						{
 							document.getElementById("testTable").style.display = "inherit";
-							document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
+							document.getElementById("attendanceLabel").innerHTML = "Current Estimated Attendance: ";
 							document.getElementById("attendanceResult").style.display = "inline";
 							document.getElementById("chartContainer").style.display = "inherit";
 							document.getElementById("intervals").style.display = "inherit";
@@ -157,7 +157,11 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		text: "Average Busyness"
 	},
 	axisY: {
-		includeZero: false
+		includeZero: false,
+		title:"Average Attendance at this Time"
+	},
+	axisX: {
+		title:"Time"
 	},
 	data: [{
 		type: "spline",
