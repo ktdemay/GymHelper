@@ -2,7 +2,6 @@ var elapsed, timer;
 
 function startWorkout()
 {
-	console.log("start");
 	var start = new Date().getTime();
     elapsed = '0.0';
 
@@ -20,6 +19,13 @@ function startWorkout()
 	document.getElementById("startBtn").style.display = "none";
 	document.getElementById("stopBtn").style.display = "inline";
 	document.getElementById("addNewBtn").style.display = "inline";
+
+	if(localStorage.getItem('goals') != null && localStorage.getItem('goals') != '')
+	{
+		document.getElementById("lastGoals").style.display = "inline";
+		document.getElementById("lastGoalsHr").style.display = "block";
+		document.getElementById("lastGoals").innerHTML = "<b>Goals:</b> " + localStorage.getItem('goals');
+	}
 }
 
 function addNewExercise()
@@ -99,14 +105,104 @@ function addNewExercise()
     });
 }
 
-/*function removeExercise(var row)
-{
-	row.remove();
-}*/
-
 function stopWorkout()
 {
-	console.log("stop");
 	clearInterval(timer);
-	console.log(elapsed);
+
+	var tips = [
+		"Taking rest days is important, remember not to over-exert yourself!",
+		"Make sure you're getting enough protein, it's essential for rebuilding muscles.",
+		"Drink. More. Water. There's a good chance you're not drinking enough.",
+		"Use good form. If you're unsure how to do an exercise, watch a video on it and have someone critique your form or record it and compare it to the video.",
+		"The easiest way to keep going to the gym is to make a routine out of it. Don't make excuses.",
+		"If you keep putting in the effort, you will see results.",
+		"Don't get discouraged if you don't see results in the short-term, it takes around 2-3 weeks to see any muscle growth",
+		"Eat well. Eating right is just as important as the workout itself.",
+		"Set goals. If you set goals the gym will feel much more rewarding. Don't make it easy on yourself but also don't make it impossible.",
+		"Find a workout plan tht you enjoy doing, you won't want to go to the gym if you aren't enjoying yourself."
+	]
+
+	var mainDiv = document.getElementById('mainDiv');
+	mainDiv.innerHTML = "";
+
+	$('#mainDiv')
+	.append($('<h1>')
+		.text("Nice job!")
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	$('#mainDiv')
+	.append($('<h3>')
+		.text("Your workout lasted for:")
+	);
+
+	$('#mainDiv')
+	.append($('<h4>')
+		.text(getTime())
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	tip = tips[Math.floor(Math.random()*10)];
+
+	$('#mainDiv')
+	.append($('<p>')
+		.text("Tip: " + tip)
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	$('#mainDiv')
+	.append($('<h4>')
+		.text("Goals for next time:")
+	);
+
+	$('#mainDiv')
+	.append($('<textarea class="form-control" rows="3" placeholder="Goals" id="goals">')
+	);
+
+	$('#mainDiv')
+	.append($('<button onclick=finishWorkout()>')
+		.text("Finish Workout")
+	);
 }
+
+function getTime() {
+    var pad = function(num, size) { return ('000' + num).slice(size * -1); },
+    time = parseFloat(elapsed).toFixed(3),
+    hours = Math.floor(time / 60 / 60),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60);
+
+    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+}
+
+function finishWorkout()
+{
+	localStorage.removeItem('goals');
+
+	var goals = document.getElementById('goals').value;
+
+	localStorage.setItem('goals', goals);
+
+	document.location.reload(true);
+}
+
+
+
+
+
+
+
+
+
+
+
+

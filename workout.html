@@ -25,9 +25,13 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-2 col-md-1"></div>
-				<div class="col-lg-8 col-md-10 col-sm-12">
+				<div class="col-lg-8 col-md-10 col-sm-12" id="mainDiv">
+					<br>
 					<button onclick="startWorkout()" type="button" id="startBtn">Start Workout</button>
 					<button onclick="stopWorkout()" type="button" id="stopBtn" style="display: none">Stop Workout</button>
+					<hr>
+					<p id="lastGoals" style="display: none"></p>
+					<hr id="lastGoalsHr" style="display: none">
 					<div class="text-left">
 						<table class="table table-striped" id="workoutTable">
 							<thead>
