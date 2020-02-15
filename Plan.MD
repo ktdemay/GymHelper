@@ -13,4 +13,12 @@
     * Can base business off of historical average
  * Other additions
    * Gym hours
-   
+* Counting system
+  * Person class
+  * Hash of every minute the gym is open.
+    * Array of every minute in 24 hours, with the key being the current minute, and the value being how many people are leaving at that time. 
+  * At the minute a person swipes in, increment number of people leaving at that time + 50 minutes (or variable time if we add it)
+  * Increment total number of people when swiped in
+  * Poll every minute. Check hash table of that minute and decrement total number of people by the value in the hash
+
+  * Potential additions:

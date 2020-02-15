@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<script src="ActivityTrackerShowcase.js"></script>
+	<p>current attendance:</p>
+	<button onclick="testAdd()">Add People</button>
+	<p id="result">num</p>
+	<script>
+		//Kind of like the 'main' of the ActivityTracker
+		var attendance = 0;
+		var departureMinute = new Map();
+		setInterval(function(){attendance = poll(departureMinute, attendance), display()}, 1000);
+
+		function testAdd()
+		{
+			for(var i = 0; i < 10; i++)
+			{
+				attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
+			}
+		}
+		function display()
+		{
+			//document.getElementById("result").innerHTML = attendance;
+			// var iterator = departureMinute.values();
+			// var result = iterator.next();
+			// var arrayDisplay = "";
+			// while(!result.done)
+			// {
+			// 	arrayDisplay += (result.value + ", ");
+
+			// 	result = iterator.next();
+			// }
+
+			for(var i = 0; i < 10; i++)
+			{
+				attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
+			}
+
+			var arrayDisplay = "";
+			for(var i = 0; i < 60; i++)
+			{
+				if(!departureMinute.has(i))
+				{
+					arrayDisplay += "0, ";
+				} 
+				else
+				{
+					arrayDisplay += departureMinute.get(i) + ", ";
+				}
+			}
+			arrayDisplay += "\nCurrent attendance: " + attendance;
+			document.getElementById("result").innerHTML = arrayDisplay;
+		}
+	</script>
+</body>
+</html>

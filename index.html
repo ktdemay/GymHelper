@@ -15,13 +15,29 @@
     <link href="home.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="site-header sticky-top py-1">
-      <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-2 d-none d-md-inline-block" href="#">Home</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Gym Traffic</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">My Workouts</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">FAQ</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Contact</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"><img class="site-icon img-fluid" src="media/icon_small.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav" id="navbarNav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Gym Traffic</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">My Workouts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
       </div>
     </nav>
 
@@ -34,20 +50,25 @@
   <div class="shadow-sm d-none d-md-block"></div>
   <div class="shadow-sm d-none d-md-block"></div>
 </div>
-
-<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-  <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-    <div class="my-3 py-3">
-      <h2 class="display-5">What is Gym Buddy?</h2>
-      <p class="lead">Lorem ipsum yada yada yada.</p>
+<div class="bg-dark">
+<div class="row p-3 p-md-5 m-md-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">How does Gym Buddy work?</h5>
+        <p class="card-text">Lorem ipsum etc. etc.</p>
+      </div>
     </div>
   </div>
-  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-    <div class="my-3 p-3">
-      <h2 class="display-5">How does Gym Buddy work?</h2>
-      <p class="lead">Lorem ipsum yada yada yada.</p>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Why Gym Buddy?</h5>
+        <p class="card-text">Lorem ipsum etc. etc.</p>
+      </div>
     </div>
   </div>
+</div>
 </div>
 
 
