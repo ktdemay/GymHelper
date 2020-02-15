@@ -237,8 +237,13 @@ function getWeight()
 {
 	var totalWeight = 0;
 	var whichCell = "name";
+	var count = 0;
 	$('#workoutTable tr').each (function() 
 	{
+		if(count === $('#workoutTable tr').length -1)
+		{
+			return totalWeight;
+		}
 		$(this).find('td').each (function()
 		{
 			if(whichCell == "name")
@@ -255,6 +260,7 @@ function getWeight()
 				whichCell = "name";
 			}
 		})
+		count++;
 	}); 
 
 	return totalWeight;
