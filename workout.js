@@ -16,9 +16,9 @@ function startWorkout()
 	    }
 	}, 100);
 
+	$('#workoutTable').toggle();
 	document.getElementById("startBtn").style.display = "none";
 	document.getElementById("stopBtn").style.display = "inline";
-	document.getElementById("addNewBtn").style.display = "inline";
 
 	if(localStorage.getItem('goals') != null && localStorage.getItem('goals') != '')
 	{
@@ -33,15 +33,14 @@ function addNewExercise()
 	$('#workoutTable').toggle();
 	document.getElementById('exerciseInput').style.display = "inline";
 	document.getElementById('setsInput').style.display = "inline";
-	document.getElementById('okBtn').style.display = "inline";
-	document.getElementById('addNewBtn').style.display = "none";
+	document.getElementById('nextBtn').style.display = "inline";
 }
 
 function getDetails()
 {
 	document.getElementById('exerciseInput').style.display = "none";
 	document.getElementById('setsInput').style.display = "none";
-	document.getElementById('okBtn').style.display = "none";
+	document.getElementById('nextBtn').style.display = "none";
 
 	var sets = document.getElementById('setsInput').value;
 	document.getElementById('setsInput').value = "";
@@ -94,15 +93,15 @@ function addExercise()
 		}
 	}); 
 
-	$("#workoutTable").find('tbody')
-    .append($('<tr>')
+	$("#workoutTable").find('tbody tr:last')
+    .before($('<tr>')
     	.append($('<td>')
     		.append(exerciseName)
     	)
     	.append($('<td>')
     		.append(totalWeight + " lbs")
     	)
-        .append($('<td>')
+        .append($('<td class=\'text-center\'>')
             .append($('<img>')
                 .attr('src', 'remove.png')
             )
@@ -110,8 +109,8 @@ function addExercise()
     );
 
 	var $tableBody = $('#workoutTable').find("tbody");
-    var $lastCell = $tableBody.find("td:last");
-    var $removeImg = $lastCell.find("img");
+    var $newCell = $tableBody.find("tr:last").prev().find('td:eq(2)');
+    var $removeImg = $newCell.find("img");
     $removeImg.click(function(){
     	$(this).closest('tr').remove();
     });
@@ -121,7 +120,6 @@ function addExercise()
     $('#setTable').toggle();
 	document.getElementById('doneBtn').style.display = "none";
 	$('#workoutTable').toggle();
-	document.getElementById('addNewBtn').style.display = "inline";
 }
 
 function stopWorkout()
@@ -202,6 +200,7 @@ function stopWorkout()
 	$('#mainDiv')
 	.append($('<button onclick=finishWorkout()>')
 		.text("Finish Workout")
+		.attr("class", "btn btn-dark btn-outline-info")
 	);
 }
 
