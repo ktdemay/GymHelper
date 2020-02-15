@@ -30,7 +30,7 @@ function startWorkout()
 
 function addNewExercise()
 {
-	document.getElementById('workoutTable').style.display = "none";
+	$('#workoutTable').toggle();
 	document.getElementById('exerciseInput').style.display = "inline";
 	document.getElementById('setsInput').style.display = "inline";
 	document.getElementById('okBtn').style.display = "inline";
@@ -68,7 +68,7 @@ function getDetails()
 		)
 	}
 
-	document.getElementById('setTable').style.display = "contents";
+	$('#setTable').toggle();
 	document.getElementById('doneBtn').style.display = "inline";
 }
 
@@ -118,9 +118,9 @@ function addExercise()
 
     $("#setTable > tbody").empty();
 
-    document.getElementById('setTable').style.display = "none";
+    $('#setTable').toggle();
 	document.getElementById('doneBtn').style.display = "none";
-	document.getElementById('workoutTable').style.display = "block";
+	$('#workoutTable').toggle();
 	document.getElementById('addNewBtn').style.display = "inline";
 }
 

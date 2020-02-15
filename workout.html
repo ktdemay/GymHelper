@@ -12,8 +12,18 @@
 	<meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
 	<link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
 	<link href="home.css" rel="stylesheet">
+
+	<style>
+	.hide { 
+	  position: absolute; 
+	  overflow: hidden; 
+	  clip: rect(0 0 0 0); 
+	  height: 1px; width: 1px; 
+	  margin: -1px; padding: 0; border: 0; 
+	}
+	</style>
 </head>
-	<body class="text-center" style="background-color: #e9ecef">
+	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="index.html"><img class="site-icon img-fluid" src="media/icon_small.png"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +51,7 @@
     </nav>
 
 		<div class="container-fluid">
-			<div class="row">
+			<div class="row text-center">
 				<div class="col-lg-2 col-md-1"></div>
 				<div class="col-lg-8 col-md-10 col-sm-12" id="mainDiv">
 					<br>
