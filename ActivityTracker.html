@@ -1,8 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="See how busy the gym is and track your workouts!">
+    <meta name="author" content="Jeremy Olin, Shane Keating, Kevin DeMaioribus, and Tyler Olin">
+    <link rel="icon" href="icon_small.png">
+    <title>Estimated Attendance</title>
+
+    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+    <link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
+    <link href="home.css" rel="stylesheet">
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"><img class="site-icon img-fluid" src="media/icon_small.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav" id="navbarNav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Gym Traffic</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">My Workouts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
 	<script src="ActivityTrackerShowcase.js"></script>
 	<p>current attendance:</p>
 	<button onclick="testAdd()">Add People</button>
@@ -54,5 +91,37 @@
 			document.getElementById("result").innerHTML = arrayDisplay;
 		}
 	</script>
+
+	<footer class="container py-5">
+	  <div class="row">
+	    <div class="col-6 col-md text-center">
+	      <h5>About</h5>
+	      <ul class="list-unstyled text-small">
+	        <li><a class="text-muted" href="#">Github</a></li>
+	        <li><a class="text-muted" href="https://github.com/ktdemay/GymHelper"></a></li>
+	        <li><a class="text-muted" href="http://steelhacks.com/">Steel Hacks 2020</a></li>
+	      </ul>
+	    </div>
+	    <div class="col-6 col-md text-center">
+	      <h5>Authors</h5>
+	      <ul class="list-unstyled text-small">
+	        <li class="text-muted">Kevin DeMaioribus</li>
+	        <li class="text-muted">Jeremy Olin</li>
+	        <li class="text-muted">Shane Keating</li>
+	        <li class="text-muted">Tyler Olin</li>
+	      </ul>
+	    </div>
+	    <div class="col-6 col-md text-center">
+	      <h5>Credits</h5>
+	      <ul class="list-unstyled text-small">
+	        <li>Icons made by <a class="text-muted" href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a class="text-muted" href="https://www.flaticon.com/"> www.flaticon.com</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="col-12 pt-5 col-md text-center">
+	      <small class="d-block mb-3 text-muted">© 2020</small>
+	    </div>
+	</footer>
 </body>
 </html>
