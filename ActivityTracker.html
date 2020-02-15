@@ -7,41 +7,42 @@
     <meta name="description" content="See how busy the gym is and track your workouts!">
     <meta name="author" content="Jeremy Olin, Shane Keating, Kevin DeMaioribus, and Tyler Olin">
     <link rel="icon" href="icon_small.png">
-    <title>Gym Buddy | Traffic</title>
+    <title>Gym Traffic</title>
 
     <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
     <link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
     <link href="home.css" rel="stylesheet">
+    <script type="text/javascript" src="canvasjs.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="index.html"><img class="site-icon img-fluid" src="media/icon_small.png"></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="index.html">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" href="ActivityTracker.html">Gym Traffic</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="workout.html">My Workouts</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="faq.html">FAQ</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="contact.html">Contact</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+      <a class="navbar-brand" href="index.html"><img class="site-icon img-fluid" src="media/icon_small.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav" id="navbarNav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="ActivityTracker.html">Gym Traffic</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="worker.html">My Workouts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
 	    <div class="row py-5 px-5 bg-secondary text-light">
-		    <div class="col-md-6">
+		    <div class="col-sm-6">
 				<script src="ActivityTrackerShowcase.js"></script>
 
 				<label id="attendanceLabel">Estimated Attendance: </label>
@@ -66,8 +67,147 @@
 					</tr>
 					</tbody>
 				</table>
+				<script>
+					//Kind of like the 'main' of the ActivityTracker
+					var attendance = 0;
+					var intervalTotal = 0;
+					var departureSecond = new Map();
+					var database = new Map();
+					fillDatabase();
+					setInterval(function(){attendance = poll(departureSecond, attendance), display()}, 1000);
+
+					function display()
+					{
+						var closeTime = 40
+						for(var i = 0; i < 10; i++)
+						{
+							attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
+						}
+
+						if(calculateSeconds() >= closeTime)
+						{
+							document.getElementById("testTable").style.display = "none";
+							document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
+							document.getElementById("attendanceResult").style.display = "none";
+						}
+						else
+						{
+							document.getElementById("testTable").style.display = "inherit";
+							document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
+							document.getElementById("attendanceResult").style.display = "inline";
+							var iterator = departureSecond.entries();
+							var result = iterator.next();
+							var count = 0;
+							while(!result.done)
+							{
+								document.getElementById("time" + (count)).innerHTML = result.value[0];
+								document.getElementById("numPeople" + (count)).innerHTML = result.value[1];
+								result = iterator.next();
+								count+=1;
+							}
+							document.getElementById("attendanceResult").innerHTML = attendance;
+						}
+
+					// var intervalIterator = database.entries();
+					// var intervalResult = intervalIterator.next();
+					// var intervalStr = "";
+					// while(!intervalResult.done)
+					// {
+					// 	intervalStr += "{" + intervalResult.value[0] + ", " + intervalResult.value[1] + "} ";
+					// 	intervalResult = intervalIterator.next();
+					// }
+					// document.getElementById("intervals").innerHTML = intervalStr;
+
+
+				var busyness = getAvgAttendance();
+				document.getElementById("intervals").innerHTML = busyness
+				// console.log(busyness)
+				if(busyness === "Very Busy")
+				{
+					document.getElementById("intervals").style.color = "red";
+				}
+				else if(busyness === "A Little Busy")
+				{
+					document.getElementById("intervals").style.color = "yellow";
+				}
+				else if(busyness === "Not Very Busy")
+				{
+					document.getElementById("intervals").style.color = "green";
+				}
+				else
+				{
+					document.getElementById("intervals").style.color = "white";
+				}
+			}
+				</script>
 			</div>
 			<div class="col-sm-6">
+				<script type="text/javascript">
+window.onload = function () {
+
+var dps = [];
+for(var k = 0; k < 6; k++) dps.push({x: 0, y: 0});
+var chart = new CanvasJS.Chart("chartContainer", {
+	exportEnabled: true,
+	title :{
+		text: "Average Busyness"
+	},
+	axisY: {
+		includeZero: false
+	},
+	data: [{
+		type: "spline",
+		markerSize: 0,
+		dataPoints: dps 
+	}]
+});
+
+var xVal;
+var yVal;
+var updateInterval = 1000;
+var dataLength = 30; // number of dataPoints visible at any point
+
+var updateChart = function() {
+  var date = new Date();
+  var sec = date.getSeconds();
+  var min = date.getMinutes();
+  
+  if(sec % 5 != 0) return;
+
+  for(var i = 0; i < 6; i++) {
+    xVal = i;
+    if(database.has(min)) {
+      var arr = database.get(min);
+      yVal = arr[i][0];
+    }
+    else yVal = 0;
+    dps[i] = { x: xVal, y: yVal};
+    /*dps.push({
+      x: xVal,
+      y: yVal
+    });*/
+  }
+	
+	chart.render();
+};
+
+updateChart(); 
+setInterval(function(){ updateChart() }, updateInterval); 
+}
+
+function fillDatabase() {
+  var numRuns = 2;
+  for(var min = 0; min < 60; min++) {
+    var arr = new Array();
+    for(var interval = 0; interval < 6; interval++) {
+      arr[interval] = [(Math.random()*110)+20, numRuns];
+    }
+    database.set(min, arr);
+  }
+}
+				</script>
+				<div id="chartContainer" style="height: 500px; width: 50%;"></div>
+				<p id="intervals"></p>
 			</div>
 		</div>
 
@@ -76,9 +216,9 @@
 		    <div class="col-4 col-md">
 		      <h5>About</h5>
 		      <ul class="list-unstyled text-small">
-		        <li><a class="text-muted" href="https://github.com/ktdemay/GymHelper">Github</a></li>
+		        <li><a class="text-muted" href="#">Github</a></li>
+		        <li><a class="text-muted" href="https://github.com/ktdemay/GymHelper"></a></li>
 		        <li><a class="text-muted" href="http://steelhacks.com/">Steel Hacks 2020</a></li>
-						<small class="d-block mb-3 text-muted">© 2020</small>
 		      </ul>
 		    </div>
 		    <div class="col-4 col-md">
@@ -93,82 +233,15 @@
 		    <div class="col-4 col-md">
 		      <h5>Credits</h5>
 		      <ul class="list-unstyled text-small">
-		        <li>Icons made by <a class="text-muted" href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a class="text-muted" href="https://www.flaticon.com/"> flaticon.com</a></li>
+		        <li>Icons made by <a class="text-muted" href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a class="text-muted" href="https://www.flaticon.com/"> www.flaticon.com</a></li>
 		      </ul>
 		    </div>
 		  </div>
+		  <div class="row text-center">
+		    <div class="col-12 col-md">
+		      <small class="d-block mb-3 text-muted">© 2020</small>
+		    </div>
+		  </div>
 		</footer>
-		<script>
-			//Kind of like the 'main' of the ActivityTracker
-			var attendance = 0;
-			var departureSecond = new Map();
-			setInterval(function(){attendance = poll(departureSecond, attendance), display()}, 1000);
-
-			function display()
-			{
-				var closeTime = 40
-				for(var i = 0; i < 10; i++)
-				{
-					attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
-				}
-
-				if(calculateSeconds() >= closeTime)
-				{
-					document.getElementById("testTable").style.display = "none";
-					document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
-					document.getElementById("attendanceResult").style.display = "none";
-				}
-				else
-				{
-					document.getElementById("testTable").style.display = "inherit";
-					document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
-					document.getElementById("attendanceResult").style.display = "inline";
-					var iterator = departureSecond.entries();
-					var result = iterator.next();
-					var disp = "";
-					var count = 0;
-					while(!result.done)
-					{
-						console.log("count: " + count);
-						document.getElementById("time" + (count)).innerHTML = result.value[0];
-						document.getElementById("numPeople" + (count)).innerHTML = result.value[1];
-						result = iterator.next();
-						count+=1;
-					}
-					document.getElementById("attendanceResult").innerHTML = attendance;
-				}
-
-
-				// var iterator = departureSecond.values();
-				// var result = iterator.next();
-				// var arrayDisplay = "";
-				// while(!result.done)
-				// {
-				// 	arrayDisplay += (result.value + ", ");
-
-				// 	result = iterator.next();
-				// }
-
-				// document.getElementById("result").innerHTML = arrayDisplay;
-
-				// var arrayDisplay = "";
-				// for(var i = 0; i < 60; i++)
-				// {
-				// 	if(!departureMinute.has(i))
-				// 	{
-				// 		arrayDisplay += "0, ";
-				// 	}
-				// 	else
-				// 	{
-				// 		arrayDisplay += departureMinute.get(i) + ", ";
-				// 	}
-				// }
-				// arrayDisplay += "\nCurrent attendance: " + attendance;
-				// document.getElementById("result").innerHTML = arrayDisplay;
-			}
-		</script>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
