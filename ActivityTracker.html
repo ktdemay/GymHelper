@@ -22,7 +22,30 @@
 		}
 		function display()
 		{
-			document.getElementById("result").innerHTML = attendance;
+			//document.getElementById("result").innerHTML = attendance;
+			// var iterator = departureMinute.values();
+			// var result = iterator.next();
+			// var arrayDisplay = "";
+			// while(!result.done)
+			// {
+			// 	arrayDisplay += (result.value + ", ");
+
+			// 	result = iterator.next();
+			// }
+
+			var arrayDisplay = "";
+			for(var i = 0; i < 60; i++)
+			{
+				if(!departureMinute.has(i))
+				{
+					arrayDisplay += "0, ";
+				} 
+				else
+				{
+					arrayDisplay += departureMinute.get(i) + ", ";
+				}
+			}
+			document.getElementById("result").innerHTML = arrayDisplay;
 		}
 	</script>
 </body>

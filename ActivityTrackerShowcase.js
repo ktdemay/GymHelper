@@ -11,7 +11,7 @@ function addPerson(map, seconds, currentAttendance, closingTime)
   var duration = Math.floor(Math.random() * 2.99) + 3;
   var departTime = Math.min(seconds + duration, closingTime);
 
-  if(minutes >= closingTime)
+  if(seconds >= closingTime)
   {
     return currentAttendance;
   }
