@@ -43,26 +43,71 @@
 	    <div class="row py-5 px-5 bg-secondary text-light">
 		    <div class="col-sm-6">
 				<script src="ActivityTrackerShowcase.js"></script>
-				<p>current attendance:</p>
-				<button onclick="testAdd()">Add People</button>
-				<p id="result">num</p>
+
+				<label id="attendanceLabel">Estimated Attendance: </label>
+				<label id="attendanceResult"></label>
+				<table class="table table-bordered table-dark" id="testTable">
+					<tbody>
+					<tr>
+						<th scope="col">Time Slot</th>
+						<td scope="col" id="time0"></td>
+						<td scope="col" id="time1"></td>
+						<td scope="col" id="time2"></td>
+						<td scope="col" id="time3"></td>
+						<td scope="col" id="time4"></td>
+					</tr>
+					<tr>
+						<th scope="row">Expected People Departing</th>
+						<td id="numPeople0"></td>
+						<td id="numPeople1"></td>
+						<td id="numPeople2"></td>
+						<td id="numPeople3"></td>
+						<td id="numPeople4"></td>
+					</tr>
+					</tbody>
+				</table>
 				<script>
 					//Kind of like the 'main' of the ActivityTracker
 					var attendance = 0;
-					var departureMinute = new Map();
-					setInterval(function(){attendance = poll(departureMinute, attendance), display()}, 1000);
+					var departureSecond = new Map();
+					setInterval(function(){attendance = poll(departureSecond, attendance), display()}, 1000);
 
-					function testAdd()
-					{
-						for(var i = 0; i < 10; i++)
-						{
-							attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
-						}
-					}
 					function display()
 					{
-						//document.getElementById("result").innerHTML = attendance;
-						// var iterator = departureMinute.values();
+						var closeTime = 40
+						for(var i = 0; i < 10; i++)
+						{
+							attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
+						}
+
+						if(calculateSeconds() >= closeTime)
+						{
+							document.getElementById("testTable").style.display = "none";
+							document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
+							document.getElementById("attendanceResult").style.display = "none";
+						}
+						else
+						{
+							document.getElementById("testTable").style.display = "inherit";
+							document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
+							document.getElementById("attendanceResult").style.display = "inline";
+							var iterator = departureSecond.entries();
+							var result = iterator.next();
+							var disp = "";
+							var count = 0;
+							while(!result.done)
+							{
+								console.log("count: " + count);
+								document.getElementById("time" + (count)).innerHTML = result.value[0];
+								document.getElementById("numPeople" + (count)).innerHTML = result.value[1];
+								result = iterator.next();
+								count+=1;
+							}
+							document.getElementById("attendanceResult").innerHTML = attendance;
+						}
+
+
+						// var iterator = departureSecond.values();
 						// var result = iterator.next();
 						// var arrayDisplay = "";
 						// while(!result.done)
@@ -72,30 +117,27 @@
 						// 	result = iterator.next();
 						// }
 
-						for(var i = 0; i < 10; i++)
-						{
-							attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
-						}
+						// document.getElementById("result").innerHTML = arrayDisplay;
 
-						var arrayDisplay = "";
-						for(var i = 0; i < 60; i++)
-						{
-							if(!departureMinute.has(i))
-							{
-								arrayDisplay += "0, ";
-							}
-							else
-							{
-								arrayDisplay += departureMinute.get(i) + ", ";
-							}
-						}
-						arrayDisplay += "\nCurrent attendance: " + attendance;
-						document.getElementById("result").innerHTML = arrayDisplay;
+						// var arrayDisplay = "";
+						// for(var i = 0; i < 60; i++)
+						// {
+						// 	if(!departureMinute.has(i))
+						// 	{
+						// 		arrayDisplay += "0, ";
+						// 	} 
+						// 	else
+						// 	{
+						// 		arrayDisplay += departureMinute.get(i) + ", ";
+						// 	}
+						// }
+						// arrayDisplay += "\nCurrent attendance: " + attendance;
+						// document.getElementById("result").innerHTML = arrayDisplay;
 					}
 				</script>
 			</div>
 			<div class="col-sm-6">
-				<p>aaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+				<p>aaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
 			</div>
 		</div>
 
