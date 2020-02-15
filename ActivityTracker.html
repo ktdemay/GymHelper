@@ -33,6 +33,11 @@
 			// 	result = iterator.next();
 			// }
 
+			for(var i = 0; i < 10; i++)
+			{
+				attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
+			}
+
 			var arrayDisplay = "";
 			for(var i = 0; i < 60; i++)
 			{
@@ -45,6 +50,7 @@
 					arrayDisplay += departureMinute.get(i) + ", ";
 				}
 			}
+			arrayDisplay += "\nCurrent attendance: " + attendance;
 			document.getElementById("result").innerHTML = arrayDisplay;
 		}
 	</script>
