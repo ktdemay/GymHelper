@@ -145,6 +145,10 @@ function stopWorkout()
 	mainDiv.innerHTML = "";
 
 	$('#mainDiv')
+	.append($('<br>')
+	);
+
+	$('#mainDiv')
 	.append($('<h1>')
 		.text("Nice job!")
 	);
@@ -159,7 +163,7 @@ function stopWorkout()
 	);
 
 	$('#mainDiv')
-	.append($('<h3>')
+	.append($('<h2>')
 		.text(getTime())
 	);
 
@@ -169,7 +173,7 @@ function stopWorkout()
 	);
 
 	$('#mainDiv')
-	.append($('<h3>')
+	.append($('<h2>')
 		.text(totalWeight + " lbs")
 	);
 
@@ -195,6 +199,10 @@ function stopWorkout()
 
 	$('#mainDiv')
 	.append($('<textarea class="form-control" rows="3" placeholder="Goals" id="goals">')
+	);
+
+	$('#mainDiv')
+	.append($('<br>')
 	);
 
 	$('#mainDiv')
@@ -251,15 +259,3 @@ function getWeight()
 
 	return totalWeight;
 }
-
-
-
-
-
-
-
-
-
-
-
-
