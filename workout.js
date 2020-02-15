@@ -1,5 +1,22 @@
+var elapsed, timer;
+
 function startWorkout()
 {
+	console.log("start");
+	var start = new Date().getTime();
+    elapsed = '0.0';
+
+	timer = setInterval(function()
+	{
+	    var time = new Date().getTime() - start;
+
+	    elapsed = Math.floor(time / 100) / 10;
+	    if(Math.round(elapsed) == elapsed) 
+	    { 
+	    	elapsed += '.0'; 
+	    }
+	}, 100);
+
 	document.getElementById("startBtn").style.display = "none";
 	document.getElementById("stopBtn").style.display = "inline";
 	document.getElementById("addNewBtn").style.display = "inline";
@@ -73,9 +90,23 @@ function addNewExercise()
             )
         )
     );
+
+    var $tableBody= $('#workoutTable').find("tbody");
+    var $lastCell = $tableBody.find("td:last");
+    var $removeImg = $lastCell.find("img");
+    $removeImg.click(function(){
+    	$(this).closest('tr').remove();
+    });
 }
+
+/*function removeExercise(var row)
+{
+	row.remove();
+}*/
 
 function stopWorkout()
 {
-
+	console.log("stop");
+	clearInterval(timer);
+	console.log(elapsed);
 }
