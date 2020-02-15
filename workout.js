@@ -73,7 +73,19 @@ function addNewExercise()
             )
         )
     );
+
+    var $tableBody= $('#workoutTable').find("tbody");
+    var $lastCell = $tableBody.find("td:last");
+    var $removeImg = $lastCell.find("img");
+    $removeImg.click(function(){
+    	$(this).closest('tr').remove();
+    });
 }
+
+/*function removeExercise(var row)
+{
+	row.remove();
+}*/
 
 function stopWorkout()
 {
