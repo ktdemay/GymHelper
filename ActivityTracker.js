@@ -5,22 +5,27 @@ function calculateMinutes()
   return minute;
 }
 
-function addPerson(map, minutes, currentAttendance)
+function addPerson(map, minutes, currentAttendance, closingTime)
 {
 	//Random integer between 45 and 60
-	var duration = Math.floor(Math.random() * 30) + 45;
-  var departTime = minutes + duration;
+  var duration = Math.floor(Math.random() * 30) + 45;
+  var departTime = Math.min(seconds + duration, closingTime);
   
+  if(minutes >= closingTime)
+  {
+  	return currentAttendance;
+  }
+
   if(map.has(departTime))
   {
-     	map.set(departTime, map.get(departTime) + 1);
+      map.set(departTime, map.get(departTime) + 1);
   }
   else
   {
       map.set(departTime, 1);
   }
-  
-  return currentAttendance++;
+
+  return currentAttendance += 1;
 }
 
 function removePeople(map, minutes, currentAttendance)
@@ -40,6 +45,3 @@ function poll(map, currentAttendance)
   return currentAttendance;
 }
 
-//Kind of like the 'main' of the ActivityTracker
-var departureMinute = new Map();
-setInterval(function(){currentAttendance = poll(map, currentAttendance)}, 1000 * 60);
