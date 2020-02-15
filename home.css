@@ -1,0 +1,30 @@
+.container {
+  max-width: 960px;
+}
+
+.site-header a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.flex-equal > * {
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.site-banner{
+  background-size: cover;
+  background-image: url("media/icon_banner.png");
+  background-repeat:no-repeat;
+}
+
+.site-icon{
+  max-width: 50px;
+  max-height: auto;
+}
+
+.featured{
+  background-color: #242423;
+}
+
+.overflow-hidden { overflow: hidden; }
