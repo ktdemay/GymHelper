@@ -3,7 +3,6 @@ function startWorkout()
 	document.getElementById("startBtn").style.display = "none";
 	document.getElementById("stopBtn").style.display = "inline";
 	document.getElementById("addNewBtn").style.display = "inline";
-	document.getElementById("wktBody").style.display = "inline";
 }
 
 function addNewExercise()
@@ -60,20 +59,20 @@ function addNewExercise()
 		totalWeight += (reps*weightInput);
 	}
 
-    /*$("#workoutTable").find('tbody')
+    $("#workoutTable").find('tbody')
     .append($('<tr>')
     	.append($('<td>')
-    		.text(exersizeName)
+    		.append(exersizeName)
     	)
     	.append($('<td>')
-    		.text(totalWeight + " lbs")
+    		.append(totalWeight + " lbs")
     	)
         .append($('<td>')
             .append($('<img>')
                 .attr('src', 'remove.png')
             )
         )
-    );*/
+    );
 }
 
 function stopWorkout()
