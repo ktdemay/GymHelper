@@ -27,4 +27,8 @@
   background-color: #242423;
 }
 
+.hr{
+  width: 100%;
+}
+
 .overflow-hidden { overflow: hidden; }
