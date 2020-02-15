@@ -141,6 +141,8 @@ function stopWorkout()
 		"Find a workout plan tht you enjoy doing, you won't want to go to the gym if you aren't enjoying yourself."
 	]
 
+	var totalWeight = getWeight();
+
 	var mainDiv = document.getElementById('mainDiv');
 	mainDiv.innerHTML = "";
 
@@ -170,7 +172,7 @@ function stopWorkout()
 
 	$('#mainDiv')
 	.append($('<h3>')
-		.text(getWeight() + " lbs")
+		.text(totalWeight + " lbs")
 	);
 
 	$('#mainDiv')
@@ -228,27 +230,24 @@ function getWeight()
 {
 	var totalWeight = 0;
 	var whichCell = "name";
-	console.log($('#workoutTable > tbody').length);
 	$('#workoutTable tr').each (function() 
 	{
-		console.log("here");
 		$(this).find('td').each (function()
 		{
-			console.log("here");
 			if(whichCell == "name")
 			{
-				whichCell == "weight";
+				whichCell = "weight";
 			}
 			else if(whichCell == "weight")
 			{
-				console.log(this.firstChild.value);
-				console.log(parseInt(this.firstChild.value));
-				totalWeight += parseInt(this.firstChild.value);
-				whichCell == "remove";
+				console.log(this.innerHTML);
+				console.log(parseInt(this.innerHTML));
+				totalWeight += parseInt(this.innerHTML);
+				whichCell = "remove";
 			}
 			else
 			{
-				whichCell == "name";
+				whichCell = "name";
 			}
 		})
 	}); 
