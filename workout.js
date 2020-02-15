@@ -239,8 +239,6 @@ function getWeight()
 			}
 			else if(whichCell == "weight")
 			{
-				console.log(this.innerHTML);
-				console.log(parseInt(this.innerHTML));
 				totalWeight += parseInt(this.innerHTML);
 				whichCell = "remove";
 			}
