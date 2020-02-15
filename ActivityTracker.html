@@ -7,7 +7,7 @@
     <meta name="description" content="See how busy the gym is and track your workouts!">
     <meta name="author" content="Jeremy Olin, Shane Keating, Kevin DeMaioribus, and Tyler Olin">
     <link rel="icon" href="icon_small.png">
-    <title>Gym Traffic</title>
+    <title>Gym Buddy | Traffic</title>
 
     <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
     <link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
@@ -20,29 +20,29 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="ActivityTracker.html">Gym Traffic</a>
+              <a class="nav-link active" href="ActivityTracker.html">Gym Traffic</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="workout.html">My Workouts</a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link" href="faq.html">FAQ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="worker.html">My Workouts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">FAQ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="contact.html">Contact</a>
           </li>
         </ul>
       </div>
     </nav>
 
 	    <div class="row py-5 px-5 bg-secondary text-light">
-		    <div class="col-sm-6">
+		    <div class="col-md-6">
 				<script src="ActivityTrackerShowcase.js"></script>
 
 				<label id="attendanceLabel">Estimated Attendance: </label>
@@ -211,14 +211,14 @@ function fillDatabase() {
 			</div>
 		</div>
 
-		<footer class="container py-5 fixed-bottom">
+		<footer class="container py-5">
 		  <div class="row">
 		    <div class="col-4 col-md">
 		      <h5>About</h5>
 		      <ul class="list-unstyled text-small">
-		        <li><a class="text-muted" href="#">Github</a></li>
-		        <li><a class="text-muted" href="https://github.com/ktdemay/GymHelper"></a></li>
+		        <li><a class="text-muted" href="https://github.com/ktdemay/GymHelper">Github</a></li>
 		        <li><a class="text-muted" href="http://steelhacks.com/">Steel Hacks 2020</a></li>
+		        <small class="d-block mb-3 text-muted">© 2020</small>
 		      </ul>
 		    </div>
 		    <div class="col-4 col-md">
@@ -233,13 +233,8 @@ function fillDatabase() {
 		    <div class="col-4 col-md">
 		      <h5>Credits</h5>
 		      <ul class="list-unstyled text-small">
-		        <li>Icons made by <a class="text-muted" href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a class="text-muted" href="https://www.flaticon.com/"> www.flaticon.com</a></li>
+		        <li>Icons made by <a class="text-muted" href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a class="text-muted" href="https://www.flaticon.com/"> flaticon.com</a></li>
 		      </ul>
-		    </div>
-		  </div>
-		  <div class="row text-center">
-		    <div class="col-12 col-md">
-		      <small class="d-block mb-3 text-muted">© 2020</small>
 		    </div>
 		  </div>
 		</footer>
