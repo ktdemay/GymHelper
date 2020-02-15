@@ -78,8 +78,8 @@
 
 					function display()
 					{
-						var closeTime = 40
-						for(var i = 0; i < 10; i++)
+						var closeTime = 55;
+						for(var i = 0; i < (Math.random()*25) + 10; i++)
 						{
 							attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
 						}
@@ -89,12 +89,16 @@
 							document.getElementById("testTable").style.display = "none";
 							document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
 							document.getElementById("attendanceResult").style.display = "none";
+							document.getElementById("chartContainer").style.display = "none";
+							document.getElementById("intervals").style.display = "none";
 						}
 						else
 						{
 							document.getElementById("testTable").style.display = "inherit";
 							document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
 							document.getElementById("attendanceResult").style.display = "inline";
+							document.getElementById("chartContainer").style.display = "inherit";
+							document.getElementById("intervals").style.display = "inherit";
 							var iterator = departureSecond.entries();
 							var result = iterator.next();
 							var count = 0;
@@ -124,7 +128,7 @@
 				// console.log(busyness)
 				if(busyness === "Very Busy")
 				{
-					document.getElementById("intervals").style.color = "red";
+					document.getElementById("intervals").style.color = "#f7636a";
 				}
 				else if(busyness === "A Little Busy")
 				{
@@ -132,7 +136,7 @@
 				}
 				else if(busyness === "Not Very Busy")
 				{
-					document.getElementById("intervals").style.color = "green";
+					document.getElementById("intervals").style.color = "#79fc9a";
 				}
 				else
 				{
@@ -207,7 +211,7 @@ function fillDatabase() {
 }
 				</script>
 				<div id="chartContainer" style="height: 500px; width: 50%;"></div>
-				<p id="intervals"></p>
+				<h2 id="intervals"></h2>
 			</div>
 		</div>
 

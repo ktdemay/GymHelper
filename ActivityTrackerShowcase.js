@@ -81,8 +81,8 @@ function getAvgAttendance() {
     var arrs = database.get(day);
     var busyness = arrs[interv][0];
     //console.log(busyness);
-    if(busyness >= 100) return "Very Busy";
-    else if(busyness >= 20) return "A Little Busy";
+    if(busyness >= 80) return "Very Busy";
+    else if(busyness >= 40) return "A Little Busy";
     else return "Not Very Busy";
   }
   else return "No Data Available";
