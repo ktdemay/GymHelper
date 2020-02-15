@@ -30,62 +30,74 @@ function startWorkout()
 
 function addNewExercise()
 {
-	var exersizeName = prompt("Exersize Name");
-	var sets = prompt("How many sets?");
-	if(sets == null)
-	{
-		return;
-	}
+	document.getElementById('workoutTable').style.display = "none";
+	document.getElementById('exerciseInput').style.display = "inline";
+	document.getElementById('setsInput').style.display = "inline";
+	document.getElementById('okBtn').style.display = "inline";
+	document.getElementById('addNewBtn').style.display = "none";
+}
 
-	while(!(/[0-9]+/).test(sets))
-	{
-		var sets = prompt("Invalid input. How many sets?");
-		if(sets == null)
-		{
-			return;
-		}
-	}
+function getDetails()
+{
+	document.getElementById('exerciseInput').style.display = "none";
+	document.getElementById('setsInput').style.display = "none";
+	document.getElementById('okBtn').style.display = "none";
 
-	var totalWeight = 0;
+	var sets = document.getElementById('setsInput').value;
+	document.getElementById('setsInput').value = "";
+
+	var $tableBody = $('#setTable').find('tbody');
 	for(var i = 0; i < sets; i++)
 	{
-		var reps = prompt("How many reps for set " + (i+1) + "?");
-		if(reps == null)
-		{
-			return;
-		}
-
-		while(!(/[0-9]+/).test(reps))
-		{
-			var reps = prompt("How many reps for set " + (i+1) + "?");
-			if(reps == null)
-			{
-				return;
-			}
-		}
-
-		weightInput = prompt("How much weight (in lbs) for set " + (i+1) + "?");
-		if(weightInput == null)
-		{
-			return;
-		}
-
-		while(!(/^[0-9]+(\.[0-9]+)?$/).test(weightInput))
-		{
-			var weightInput = prompt("How much weight (in lbs) for set " + (i+1) + "?");
-			if(weightInput == null)
-			{
-				return;
-			}
-		}
-
-		totalWeight += (reps*weightInput);
+		$tableBody
+		.append($('<tr>')
+			.append($('<th>')
+				.text(i+1)
+			)
+			.append($('<td>')
+				.append($('<input oninput="this.value=this.value.replace(/(?![0-9])./gmi,\'\')">')
+					.attr('class', 'form-control')
+				)
+			)
+			.append($('<td>')
+				.append($('<input>')
+					.attr('oninput', 'oninput="this.value=this.value.replace(/(?![0-9.])./gmi,\'\')"')
+					.attr('class', 'form-control')
+				)
+			)
+		)
 	}
 
-    $("#workoutTable").find('tbody')
+	document.getElementById('setTable').style.display = "contents";
+	document.getElementById('doneBtn').style.display = "inline";
+}
+
+function addExercise()
+{
+	var exerciseName = document.getElementById('exerciseInput').value;
+	document.getElementById('exerciseInput').value = "";
+
+	var reps = 0;
+	var totalWeight = 0;
+
+	var repOrWeight = 'r';
+	$('#setTable').find('td').each (function() {
+		if(repOrWeight == 'r')
+		{
+			repOrWeight = 'w';
+			reps = this.firstChild.value;
+		}
+		else
+		{
+			repOrWeight = 'r';
+			totalWeight += (reps*this.firstChild.value);
+		}
+	}); 
+
+	$("#workoutTable").find('tbody')
     .append($('<tr>')
     	.append($('<td>')
-    		.append(exersizeName)
+    		.append(exerciseName)
     	)
     	.append($('<td>')
     		.append(totalWeight + " lbs")
@@ -97,12 +109,19 @@ function addNewExercise()
         )
     );
 
-    var $tableBody= $('#workoutTable').find("tbody");
+	var $tableBody = $('#workoutTable').find("tbody");
     var $lastCell = $tableBody.find("td:last");
     var $removeImg = $lastCell.find("img");
     $removeImg.click(function(){
     	$(this).closest('tr').remove();
     });
+
+    $("#setTable > tbody").empty();
+
+    document.getElementById('setTable').style.display = "none";
+	document.getElementById('doneBtn').style.display = "none";
+	document.getElementById('workoutTable').style.display = "block";
+	document.getElementById('addNewBtn').style.display = "inline";
 }
 
 function stopWorkout()
@@ -135,13 +154,23 @@ function stopWorkout()
 	);
 
 	$('#mainDiv')
-	.append($('<h3>')
+	.append($('<h5>')
 		.text("Your workout lasted for:")
 	);
 
 	$('#mainDiv')
-	.append($('<h4>')
+	.append($('<h3>')
 		.text(getTime())
+	);
+
+	$('#mainDiv')
+	.append($('<h5>')
+		.text("and you lifted")
+	);
+
+	$('#mainDiv')
+	.append($('<h3>')
+		.text(getWeight() + " lbs")
 	);
 
 	$('#mainDiv')
@@ -193,6 +222,38 @@ function finishWorkout()
 	localStorage.setItem('goals', goals);
 
 	document.location.reload(true);
+}
+
+function getWeight()
+{
+	var totalWeight = 0;
+	var whichCell = "name";
+	console.log($('#workoutTable > tbody').length);
+	$('#workoutTable tr').each (function() 
+	{
+		console.log("here");
+		$(this).find('td').each (function()
+		{
+			console.log("here");
+			if(whichCell == "name")
+			{
+				whichCell == "weight";
+			}
+			else if(whichCell == "weight")
+			{
+				console.log(this.firstChild.value);
+				console.log(parseInt(this.firstChild.value));
+				totalWeight += parseInt(this.firstChild.value);
+				whichCell == "remove";
+			}
+			else
+			{
+				whichCell == "name";
+			}
+		})
+	}); 
+
+	return totalWeight;
 }
 
 
