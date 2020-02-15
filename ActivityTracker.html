@@ -7,7 +7,7 @@
     <meta name="description" content="See how busy the gym is and track your workouts!">
     <meta name="author" content="Jeremy Olin, Shane Keating, Kevin DeMaioribus, and Tyler Olin">
     <link rel="icon" href="icon_small.png">
-    <title>Estimated Attendance</title>
+    <title>Gym Traffic</title>
 
     <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
     <link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
@@ -21,10 +21,10 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav" id="navbarNav">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="#">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="#">Gym Traffic</a>
           </li>
           <li class="nav-item">
@@ -40,57 +40,64 @@
       </div>
     </nav>
 
-	<script src="ActivityTrackerShowcase.js"></script>
-	<p>current attendance:</p>
-	<button onclick="testAdd()">Add People</button>
-	<p id="result">num</p>
-	<script>
-		//Kind of like the 'main' of the ActivityTracker
-		var attendance = 0;
-		var departureMinute = new Map();
-		setInterval(function(){attendance = poll(departureMinute, attendance), display()}, 1000);
+	    <div class="row py-5 px-5 bg-secondary text-light">
+		    <div class="col-sm-6">
+				<script src="ActivityTrackerShowcase.js"></script>
+				<p>current attendance:</p>
+				<button onclick="testAdd()">Add People</button>
+				<p id="result">num</p>
+				<script>
+					//Kind of like the 'main' of the ActivityTracker
+					var attendance = 0;
+					var departureMinute = new Map();
+					setInterval(function(){attendance = poll(departureMinute, attendance), display()}, 1000);
 
-		function testAdd()
-		{
-			for(var i = 0; i < 10; i++)
-			{
-				attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
-			}
-		}
-		function display()
-		{
-			//document.getElementById("result").innerHTML = attendance;
-			// var iterator = departureMinute.values();
-			// var result = iterator.next();
-			// var arrayDisplay = "";
-			// while(!result.done)
-			// {
-			// 	arrayDisplay += (result.value + ", ");
+					function testAdd()
+					{
+						for(var i = 0; i < 10; i++)
+						{
+							attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
+						}
+					}
+					function display()
+					{
+						//document.getElementById("result").innerHTML = attendance;
+						// var iterator = departureMinute.values();
+						// var result = iterator.next();
+						// var arrayDisplay = "";
+						// while(!result.done)
+						// {
+						// 	arrayDisplay += (result.value + ", ");
 
-			// 	result = iterator.next();
-			// }
+						// 	result = iterator.next();
+						// }
 
-			for(var i = 0; i < 10; i++)
-			{
-				attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
-			}
+						for(var i = 0; i < 10; i++)
+						{
+							attendance = addPerson(departureMinute, calculateSeconds(), attendance, 40);
+						}
 
-			var arrayDisplay = "";
-			for(var i = 0; i < 60; i++)
-			{
-				if(!departureMinute.has(i))
-				{
-					arrayDisplay += "0, ";
-				} 
-				else
-				{
-					arrayDisplay += departureMinute.get(i) + ", ";
-				}
-			}
-			arrayDisplay += "\nCurrent attendance: " + attendance;
-			document.getElementById("result").innerHTML = arrayDisplay;
-		}
-	</script>
+						var arrayDisplay = "";
+						for(var i = 0; i < 60; i++)
+						{
+							if(!departureMinute.has(i))
+							{
+								arrayDisplay += "0, ";
+							} 
+							else
+							{
+								arrayDisplay += departureMinute.get(i) + ", ";
+							}
+						}
+						arrayDisplay += "\nCurrent attendance: " + attendance;
+						document.getElementById("result").innerHTML = arrayDisplay;
+					}
+				</script>
+			</div>
+			<div class="col-sm-6">
+				<p>aaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+			</div>
+		</div>
 
 	<footer class="container py-5">
 	  <div class="row">
@@ -106,7 +113,7 @@
 	      <h5>Authors</h5>
 	      <ul class="list-unstyled text-small">
 	        <li class="text-muted">Kevin DeMaioribus</li>
-	        <li class="text-muted">Jeremy Olin</li>
+	        <li class="text-muted"><a class="text-muted" href="https://jeremyolin.com">Jeremy Olin</a></li>
 	        <li class="text-muted">Shane Keating</li>
 	        <li class="text-muted">Tyler Olin</li>
 	      </ul>
