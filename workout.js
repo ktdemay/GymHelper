@@ -2,7 +2,6 @@ var elapsed, timer;
 
 function startWorkout()
 {
-	console.log("start");
 	var start = new Date().getTime();
     elapsed = '0.0';
 
@@ -20,66 +19,85 @@ function startWorkout()
 	document.getElementById("startBtn").style.display = "none";
 	document.getElementById("stopBtn").style.display = "inline";
 	document.getElementById("addNewBtn").style.display = "inline";
+
+	if(localStorage.getItem('goals') != null && localStorage.getItem('goals') != '')
+	{
+		document.getElementById("lastGoals").style.display = "inline";
+		document.getElementById("lastGoalsHr").style.display = "block";
+		document.getElementById("lastGoals").innerHTML = "<b>Goals:</b> " + localStorage.getItem('goals');
+	}
 }
 
 function addNewExercise()
 {
-	var exersizeName = prompt("Exersize Name");
-	var sets = prompt("How many sets?");
-	if(sets == null)
-	{
-		return;
-	}
+	document.getElementById('workoutTable').style.display = "none";
+	document.getElementById('exerciseInput').style.display = "inline";
+	document.getElementById('setsInput').style.display = "inline";
+	document.getElementById('okBtn').style.display = "inline";
+	document.getElementById('addNewBtn').style.display = "none";
+}
 
-	while(!(/[0-9]+/).test(sets))
-	{
-		var sets = prompt("Invalid input. How many sets?");
-		if(sets == null)
-		{
-			return;
-		}
-	}
+function getDetails()
+{
+	document.getElementById('exerciseInput').style.display = "none";
+	document.getElementById('setsInput').style.display = "none";
+	document.getElementById('okBtn').style.display = "none";
 
-	var totalWeight = 0;
+	var sets = document.getElementById('setsInput').value;
+	document.getElementById('setsInput').value = "";
+
+	var $tableBody = $('#setTable').find('tbody');
 	for(var i = 0; i < sets; i++)
 	{
-		var reps = prompt("How many reps for set " + (i+1) + "?");
-		if(reps == null)
-		{
-			return;
-		}
-
-		while(!(/[0-9]+/).test(reps))
-		{
-			var reps = prompt("How many reps for set " + (i+1) + "?");
-			if(reps == null)
-			{
-				return;
-			}
-		}
-
-		weightInput = prompt("How much weight (in lbs) for set " + (i+1) + "?");
-		if(weightInput == null)
-		{
-			return;
-		}
-
-		while(!(/^[0-9]+(\.[0-9]+)?$/).test(weightInput))
-		{
-			var weightInput = prompt("How much weight (in lbs) for set " + (i+1) + "?");
-			if(weightInput == null)
-			{
-				return;
-			}
-		}
-
-		totalWeight += (reps*weightInput);
+		$tableBody
+		.append($('<tr>')
+			.append($('<th>')
+				.text(i+1)
+			)
+			.append($('<td>')
+				.append($('<input oninput="this.value=this.value.replace(/(?![0-9])./gmi,\'\')">')
+					.attr('class', 'form-control')
+				)
+			)
+			.append($('<td>')
+				.append($('<input>')
+					.attr('oninput', 'oninput="this.value=this.value.replace(/(?![0-9.])./gmi,\'\')"')
+					.attr('class', 'form-control')
+				)
+			)
+		)
 	}
 
-    $("#workoutTable").find('tbody')
+	document.getElementById('setTable').style.display = "contents";
+	document.getElementById('doneBtn').style.display = "inline";
+}
+
+function addExercise()
+{
+	var exerciseName = document.getElementById('exerciseInput').value;
+	document.getElementById('exerciseInput').value = "";
+
+	var reps = 0;
+	var totalWeight = 0;
+
+	var repOrWeight = 'r';
+	$('#setTable').find('td').each (function() {
+		if(repOrWeight == 'r')
+		{
+			repOrWeight = 'w';
+			reps = this.firstChild.value;
+		}
+		else
+		{
+			repOrWeight = 'r';
+			totalWeight += (reps*this.firstChild.value);
+		}
+	}); 
+
+	$("#workoutTable").find('tbody')
     .append($('<tr>')
     	.append($('<td>')
-    		.append(exersizeName)
+    		.append(exerciseName)
     	)
     	.append($('<td>')
     		.append(totalWeight + " lbs")
@@ -91,22 +109,160 @@ function addNewExercise()
         )
     );
 
-    var $tableBody= $('#workoutTable').find("tbody");
+	var $tableBody = $('#workoutTable').find("tbody");
     var $lastCell = $tableBody.find("td:last");
     var $removeImg = $lastCell.find("img");
     $removeImg.click(function(){
     	$(this).closest('tr').remove();
     });
-}
 
-/*function removeExercise(var row)
-{
-	row.remove();
-}*/
+    $("#setTable > tbody").empty();
+
+    document.getElementById('setTable').style.display = "none";
+	document.getElementById('doneBtn').style.display = "none";
+	document.getElementById('workoutTable').style.display = "block";
+	document.getElementById('addNewBtn').style.display = "inline";
+}
 
 function stopWorkout()
 {
-	console.log("stop");
 	clearInterval(timer);
-	console.log(elapsed);
+
+	var tips = [
+		"Taking rest days is important, remember not to over-exert yourself!",
+		"Make sure you're getting enough protein, it's essential for rebuilding muscles.",
+		"Drink. More. Water. There's a good chance you're not drinking enough.",
+		"Use good form. If you're unsure how to do an exercise, watch a video on it and have someone critique your form or record it and compare it to the video.",
+		"The easiest way to keep going to the gym is to make a routine out of it. Don't make excuses.",
+		"If you keep putting in the effort, you will see results.",
+		"Don't get discouraged if you don't see results in the short-term, it takes around 2-3 weeks to see any muscle growth",
+		"Eat well. Eating right is just as important as the workout itself.",
+		"Set goals. If you set goals the gym will feel much more rewarding. Don't make it easy on yourself but also don't make it impossible.",
+		"Find a workout plan tht you enjoy doing, you won't want to go to the gym if you aren't enjoying yourself."
+	]
+
+	var totalWeight = getWeight();
+
+	var mainDiv = document.getElementById('mainDiv');
+	mainDiv.innerHTML = "";
+
+	$('#mainDiv')
+	.append($('<h1>')
+		.text("Nice job!")
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	$('#mainDiv')
+	.append($('<h5>')
+		.text("Your workout lasted for:")
+	);
+
+	$('#mainDiv')
+	.append($('<h3>')
+		.text(getTime())
+	);
+
+	$('#mainDiv')
+	.append($('<h5>')
+		.text("and you lifted")
+	);
+
+	$('#mainDiv')
+	.append($('<h3>')
+		.text(totalWeight + " lbs")
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	tip = tips[Math.floor(Math.random()*10)];
+
+	$('#mainDiv')
+	.append($('<p>')
+		.text("Tip: " + tip)
+	);
+
+	$('#mainDiv')
+	.append($('<hr>')
+	);
+
+	$('#mainDiv')
+	.append($('<h4>')
+		.text("Goals for next time:")
+	);
+
+	$('#mainDiv')
+	.append($('<textarea class="form-control" rows="3" placeholder="Goals" id="goals">')
+	);
+
+	$('#mainDiv')
+	.append($('<button onclick=finishWorkout()>')
+		.text("Finish Workout")
+	);
 }
+
+function getTime() {
+    var pad = function(num, size) { return ('000' + num).slice(size * -1); },
+    time = parseFloat(elapsed).toFixed(3),
+    hours = Math.floor(time / 60 / 60),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60);
+
+    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+}
+
+function finishWorkout()
+{
+	localStorage.removeItem('goals');
+
+	var goals = document.getElementById('goals').value;
+
+	localStorage.setItem('goals', goals);
+
+	document.location.reload(true);
+}
+
+function getWeight()
+{
+	var totalWeight = 0;
+	var whichCell = "name";
+	$('#workoutTable tr').each (function() 
+	{
+		$(this).find('td').each (function()
+		{
+			if(whichCell == "name")
+			{
+				whichCell = "weight";
+			}
+			else if(whichCell == "weight")
+			{
+				console.log(this.innerHTML);
+				console.log(parseInt(this.innerHTML));
+				totalWeight += parseInt(this.innerHTML);
+				whichCell = "remove";
+			}
+			else
+			{
+				whichCell = "name";
+			}
+		})
+	}); 
+
+	return totalWeight;
+}
+
+
+
+
+
+
+
+
+
+
+
+
