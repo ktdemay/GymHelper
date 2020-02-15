@@ -7,7 +7,7 @@
     <meta name="description" content="See how busy the gym is and track your workouts!">
     <meta name="author" content="Jeremy Olin, Shane Keating, Kevin DeMaioribus, and Tyler Olin">
     <link rel="icon" href="icon_small.png">
-    <title>Gym Traffic</title>
+    <title>Gym Buddy | Traffic</title>
 
     <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
     <link href="bootstrap-4.4.1\dist\css\bootstrap.min.css" rel="stylesheet">
@@ -31,17 +31,17 @@
 					<a class="nav-link" href="workout.html">My Workouts</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">FAQ</a>
+					<a class="nav-link" href="faq.html">FAQ</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Contact</a>
+					<a class="nav-link" href="contact.html">Contact</a>
 				</li>
 			</ul>
 		</div>
 	</nav>
 
 	    <div class="row py-5 px-5 bg-secondary text-light">
-		    <div class="col-sm-6">
+		    <div class="col-md-6">
 				<script src="ActivityTrackerShowcase.js"></script>
 
 				<label id="attendanceLabel">Estimated Attendance: </label>
@@ -66,78 +66,8 @@
 					</tr>
 					</tbody>
 				</table>
-				<script>
-					//Kind of like the 'main' of the ActivityTracker
-					var attendance = 0;
-					var departureSecond = new Map();
-					setInterval(function(){attendance = poll(departureSecond, attendance), display()}, 1000);
-
-					function display()
-					{
-						var closeTime = 40
-						for(var i = 0; i < 10; i++)
-						{
-							attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
-						}
-
-						if(calculateSeconds() >= closeTime)
-						{
-							document.getElementById("testTable").style.display = "none";
-							document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
-							document.getElementById("attendanceResult").style.display = "none";
-						}
-						else
-						{
-							document.getElementById("testTable").style.display = "inherit";
-							document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
-							document.getElementById("attendanceResult").style.display = "inline";
-							var iterator = departureSecond.entries();
-							var result = iterator.next();
-							var disp = "";
-							var count = 0;
-							while(!result.done)
-							{
-								console.log("count: " + count);
-								document.getElementById("time" + (count)).innerHTML = result.value[0];
-								document.getElementById("numPeople" + (count)).innerHTML = result.value[1];
-								result = iterator.next();
-								count+=1;
-							}
-							document.getElementById("attendanceResult").innerHTML = attendance;
-						}
-
-
-						// var iterator = departureSecond.values();
-						// var result = iterator.next();
-						// var arrayDisplay = "";
-						// while(!result.done)
-						// {
-						// 	arrayDisplay += (result.value + ", ");
-
-						// 	result = iterator.next();
-						// }
-
-						// document.getElementById("result").innerHTML = arrayDisplay;
-
-						// var arrayDisplay = "";
-						// for(var i = 0; i < 60; i++)
-						// {
-						// 	if(!departureMinute.has(i))
-						// 	{
-						// 		arrayDisplay += "0, ";
-						// 	}
-						// 	else
-						// 	{
-						// 		arrayDisplay += departureMinute.get(i) + ", ";
-						// 	}
-						// }
-						// arrayDisplay += "\nCurrent attendance: " + attendance;
-						// document.getElementById("result").innerHTML = arrayDisplay;
-					}
-				</script>
 			</div>
 			<div class="col-sm-6">
-				<p>aaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
 			</div>
 		</div>
 
@@ -168,5 +98,74 @@
 		    </div>
 		  </div>
 		</footer>
+		<script>
+			//Kind of like the 'main' of the ActivityTracker
+			var attendance = 0;
+			var departureSecond = new Map();
+			setInterval(function(){attendance = poll(departureSecond, attendance), display()}, 1000);
+
+			function display()
+			{
+				var closeTime = 40
+				for(var i = 0; i < 10; i++)
+				{
+					attendance = addPerson(departureSecond, calculateSeconds(), attendance, closeTime);
+				}
+
+				if(calculateSeconds() >= closeTime)
+				{
+					document.getElementById("testTable").style.display = "none";
+					document.getElementById("attendanceLabel").innerHTML = "The gym is currently closed.";
+					document.getElementById("attendanceResult").style.display = "none";
+				}
+				else
+				{
+					document.getElementById("testTable").style.display = "inherit";
+					document.getElementById("attendanceLabel").innerHTML = "Estimated Attendance: ";
+					document.getElementById("attendanceResult").style.display = "inline";
+					var iterator = departureSecond.entries();
+					var result = iterator.next();
+					var disp = "";
+					var count = 0;
+					while(!result.done)
+					{
+						console.log("count: " + count);
+						document.getElementById("time" + (count)).innerHTML = result.value[0];
+						document.getElementById("numPeople" + (count)).innerHTML = result.value[1];
+						result = iterator.next();
+						count+=1;
+					}
+					document.getElementById("attendanceResult").innerHTML = attendance;
+				}
+
+
+				// var iterator = departureSecond.values();
+				// var result = iterator.next();
+				// var arrayDisplay = "";
+				// while(!result.done)
+				// {
+				// 	arrayDisplay += (result.value + ", ");
+
+				// 	result = iterator.next();
+				// }
+
+				// document.getElementById("result").innerHTML = arrayDisplay;
+
+				// var arrayDisplay = "";
+				// for(var i = 0; i < 60; i++)
+				// {
+				// 	if(!departureMinute.has(i))
+				// 	{
+				// 		arrayDisplay += "0, ";
+				// 	}
+				// 	else
+				// 	{
+				// 		arrayDisplay += departureMinute.get(i) + ", ";
+				// 	}
+				// }
+				// arrayDisplay += "\nCurrent attendance: " + attendance;
+				// document.getElementById("result").innerHTML = arrayDisplay;
+			}
+		</script>
 </body>
 </html>
