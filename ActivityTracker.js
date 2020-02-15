@@ -1,5 +1,3 @@
-var departureMinute = new Map();
-
 function calculateMinutes()
 {
 	var date = new Date();
@@ -25,3 +23,23 @@ function addPerson(map, minutes, currentAttendance)
   return currentAttendance++;
 }
 
+function removePeople(map, minutes, currentAttendance)
+{
+  if(map.has(minutes))
+  {
+  	currentAttendance -= map.get(minutes);
+    map.remove(minutes);
+  }
+  return currentAttendance;
+}
+
+function poll(map, currentAttendance)
+{
+  var minutes = calculateMinutes();
+  currentAttendance = removePeople(map, minutes, currentAttendance);
+  return currentAttendance;
+}
+
+//Kind of like the 'main' of the ActivityTracker
+var departureMinute = new Map();
+setInterval(function(){currentAttendance = poll(map, currentAttendance)}, 1000 * 60);
