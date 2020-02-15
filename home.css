@@ -22,8 +22,9 @@
 }
 
 .site-banner{
-  background-size:100% auto;
-  background-image: url("media/test.png");
+  background-size: cover;
+  background-image: url("media/icon_banner.png");
+  background-repeat:no-repeat;
 }
 
 .overflow-hidden { overflow: hidden; }
